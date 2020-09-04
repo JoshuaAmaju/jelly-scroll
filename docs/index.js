@@ -1,7 +1,6 @@
 const { value, styler, spring, physics } = popmotion;
 
 const count = 100;
-let activePhysics;
 const container = document.querySelector(".container");
 
 const containerStyler = styler(container);
@@ -10,7 +9,7 @@ const valueY = value(0, (v) => {
   containerStyler.set({ transform: `skewY(${v}rad)` });
 });
 
-const lerp = interpolate([-5, 0, 5], [-Math.PI / 6, 0, Math.PI / 6]);
+const lerp = interpolate([-5, 0, 5], [-Math.PI / 7, 0, Math.PI / 7]);
 
 for (let i = 0; i < count; i++) {
   const item = document.createElement("div");
@@ -28,7 +27,7 @@ const scroll = useScroll({
 
     const v = dy / dt;
 
-    activePhysics = physics({
+    physics({
       to: lerp(v),
       friction: 0.6,
       restSpeed: false,
@@ -39,8 +38,5 @@ const scroll = useScroll({
 
     ctx.y = y;
     ctx.time = now;
-  },
-  onScrollEnd() {
-    activePhysics.setSpringTarget(0);
   },
 });
