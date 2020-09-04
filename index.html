@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jelly scroll</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+      }
+
+      .container {
+        width: 40%;
+        margin: auto;
+        padding: 1rem;
+      }
+
+      .container > * + * {
+        margin-top: 3rem;
+      }
+
+      .container-item {
+        height: 15rem;
+        border-radius: 15px;
+      }
+
+      .container-item:nth-child(n + 1) {
+        background-color: #e94560;
+      }
+
+      .container-item:nth-child(2n + 1) {
+        background-color: #0f3460;
+      }
+
+      .container-item:nth-child(3n + 1) {
+        background-color: #1a1a2e;
+      }
+
+      @media (pointer: coarse) {
+        .container {
+          width: 85%;
+        }
+
+        .container-item {
+          height: 13rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container"></div>
+
+    <script src="useScroll.js"></script>
+    <script src="interpolate.js"></script>
+    <script src="https://unpkg.com/popmotion/dist/popmotion.global.min.js"></script>
+    <script src="index.js" type="module"></script>
+  </body>
+</html>
