@@ -1,6 +1,7 @@
 const { value, styler, spring, physics } = popmotion;
 
 const count = 100;
+let activePhysics;
 const container = document.querySelector(".container");
 
 const containerStyler = styler(container);
@@ -27,7 +28,7 @@ const scroll = useScroll({
 
     const v = dy / dt;
 
-    physics({
+    activePhysics = physics({
       to: lerp(v),
       friction: 0.6,
       restSpeed: false,
@@ -38,5 +39,8 @@ const scroll = useScroll({
 
     ctx.y = y;
     ctx.time = now;
+  },
+  onScrollEnd() {
+    activePhysics.setSpringTarget(0);
   },
 });
