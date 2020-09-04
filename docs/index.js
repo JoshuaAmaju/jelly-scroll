@@ -1,4 +1,4 @@
-const { value, styler, spring } = popmotion;
+const { value, styler, spring, physics } = popmotion;
 
 let animation;
 const count = 100;
@@ -29,20 +29,16 @@ const scroll = useScroll({
 
     const v = dy / dt;
 
-    spring({
+    physics({
       to: lerp(v),
+      friction: 0.6,
+      restSpeed: false,
       from: valueY.get(),
+      springStrength: 100,
       velocity: valueY.getVelocity(),
     }).start(valueY);
 
     ctx.y = y;
     ctx.time = now;
-  },
-  onScrollEnd() {
-    spring({
-      to: 0,
-      from: valueY.get(),
-      velocity: valueY.getVelocity(),
-    }).start(valueY);
   },
 });

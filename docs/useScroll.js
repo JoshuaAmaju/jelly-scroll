@@ -8,10 +8,16 @@ function useScroll({ onScroll, onScrollEnd, onScrollStart }) {
     started = false;
   };
 
-  document.addEventListener("pointerup", stop, { passive: true });
-  document.addEventListener("pointerout", stop, { passive: true });
-  document.addEventListener("pointerleave", stop, { passive: true });
-  document.addEventListener("pointercancel", stop, { passive: true });
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  ) {
+    document.addEventListener("pointerup", stop, { passive: true });
+    document.addEventListener("pointerout", stop, { passive: true });
+    document.addEventListener("pointerleave", stop, { passive: true });
+    document.addEventListener("pointercancel", stop, { passive: true });
+  }
 
   document.addEventListener("scroll", () => {
     if (!started) {
