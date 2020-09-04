@@ -1,8 +1,6 @@
 const { value, styler, spring, physics } = popmotion;
 
-let animation;
 const count = 100;
-let isAnimating = false;
 const container = document.querySelector(".container");
 
 const containerStyler = styler(container);
@@ -11,7 +9,7 @@ const valueY = value(0, (v) => {
   containerStyler.set({ transform: `skewY(${v}rad)` });
 });
 
-const lerp = interpolate([-5, 0, 5], [-Math.PI / 9, 0, Math.PI / 9]);
+const lerp = interpolate([-5, 0, 5], [-Math.PI / 6, 0, Math.PI / 6]);
 
 for (let i = 0; i < count; i++) {
   const item = document.createElement("div");
