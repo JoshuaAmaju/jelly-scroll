@@ -1,30 +1,42 @@
 function useScroll({ onScroll, onScrollEnd, onScrollStart }) {
+  let raf;
   let started = false;
 
   const context = {};
+  const event = { t: 0, y: 0, dt: 0, dy: 0, v: 0, ly: 0, lt: 0 };
 
-  const stop = () => {
-    started && onScrollEnd && onScrollEnd(context);
-    started = false;
+  const watch = () => {
+    if (event.ly === window.scrollY) {
+      started = false;
+      cancelAnimationFrame(raf);
+      onScrollEnd && onScrollEnd(event, context);
+      return;
+    }
+
+    event.lt = Date.now();
+    event.ly = window.scrollY;
+    raf = requestAnimationFrame(watch);
   };
-
-  if (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    )
-  ) {
-    document.addEventListener("pointerup", stop, { passive: true });
-    document.addEventListener("pointerout", stop, { passive: true });
-    document.addEventListener("pointerleave", stop, { passive: true });
-    document.addEventListener("pointercancel", stop, { passive: true });
-  }
 
   document.addEventListener("scroll", () => {
     if (!started) {
       started = true;
-      onScrollStart && onScrollStart(context);
+      raf = requestAnimationFrame(watch);
+      onScrollStart && onScrollStart(event, context);
     }
 
-    onScroll && onScroll(context);
+    const now = Date.now();
+    const y = window.scrollY;
+
+    const dy = y - event.y;
+    const dt = now - event.t;
+
+    event.y = y;
+    event.t = now;
+    event.dt = dt;
+    event.dy = dy;
+    event.v = dy / dt;
+
+    onScroll && onScroll(event, context);
   });
 }
