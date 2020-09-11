@@ -18,15 +18,7 @@ for (let i = 0; i < count; i++) {
 }
 
 const scroll = useScroll({
-  onScroll: (ctx) => {
-    const now = Date.now();
-    const y = window.scrollY;
-
-    const dy = y - (ctx.y ?? 0);
-    const dt = now - (ctx.time ?? 0);
-
-    const v = dy / dt;
-
+  onScroll: ({ v }) => {
     physics({
       to: lerp(v),
       friction: 0.6,
@@ -35,8 +27,5 @@ const scroll = useScroll({
       springStrength: 100,
       velocity: valueY.getVelocity(),
     }).start(valueY);
-
-    ctx.y = y;
-    ctx.time = now;
   },
 });
